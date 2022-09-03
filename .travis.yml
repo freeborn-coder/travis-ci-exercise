@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - 14
+
+services:
+  - docker
+
+script:
+  - docker --version
+  - docker build -t travis-ci-exercise .
+  - docker tag travis-ci-exercise freeborniwarri/travis-ci-exercise
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push freeborniwarri/travis-ci-exercise
